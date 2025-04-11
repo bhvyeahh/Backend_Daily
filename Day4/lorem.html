@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>File Uploader</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    progress { width: 100%; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>📁 Upload a File</h1>
+  <form id="uploadForm">
+    <input type="file" id="fileInput" name="file" required />
+    <button type="submit">Upload</button>
+    <progress id="progressBar" value="0" max="100" hidden></progress>
+  </form>
+
+  <h2>⬇️ Download File</h2>
+  <input type="text" id="filenameInput" placeholder="Enter filename (e.g., myfile.txt)" />
+  <button onclick="downloadFile()">Download</button>
+
+  <script>
+    const form = document.getElementById("uploadForm");
+    const progressBar = document.getElementById("progressBar");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const file = document.getElementById("fileInput").files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/upload");
+
+      progressBar.hidden = false;
+
+      xhr.upload.onprogress = (e) => {
+        const percent = (e.loaded / e.total) * 100;
+        progressBar.value = percent;
+      };
+
+      xhr.onload = () => {
+        alert("Upload complete!");
+        progressBar.hidden = true;
+      };
+
+      xhr.send(formData);
+    });
+
+    function downloadFile() {
+      const filename = document.getElementById("filenameInput").value;
+      if (!filename) return alert("Enter a filename to download!");
+
+      window.location.href = `/download/${filename}`;
+    }
+  </script>
+</body>
+</html>
