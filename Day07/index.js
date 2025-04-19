@@ -41,6 +41,12 @@ app.put('/api/v1/users/:id', (req, res) => {
     }
 });
 
+// Post route to create a new user
+app.post('/api/v1/users', (req, res) => {
+    const newUser = { id: data.length + 1, ...req.body };
+    data.push(newUser);
+    res.status(201).send(newUser);
+});
 
 // Start the server
 app.listen(PORT, () => {

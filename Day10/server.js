@@ -26,7 +26,7 @@ app.get("/product", (req, res)=>{
 })
 
 app.listen(PORT, ()=>{
-    console.log(`Server is conncected at http://localhost:${PORT}`)
+    console.log(`Server is connected at http://localhost:${PORT}`)
 })
 
     // console.log(req.cookies);   undefined
